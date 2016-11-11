@@ -15,22 +15,21 @@ neither of which are supported by browsers. There are tools designed
 to convert (aka, transpile) the ES6 with JSX into ES5 (the JavaScript that
 browsers currently support).
 
+**note:** One may be wondering why use ES6 with JSX at all (one can write
+React applications with out it). The answer is that this new language makes
+it significantly easier to build applications.
+
 The first approach to transpiling is to have the browser do it. This
-approach is relatively simple but because of performance issues, is not
-to be used in production.  This approach is really only used in
-simple "hello world" examples.
+approach is relatively simple (no tools) but because of performance issues,
+is not to be used in production or outside of a simple "hello world"
+example.
 
-**Assignment (5 Min): In a new folder, implement the "Hello World" example
-as documented in:**
+**Assignment (5 Min): In a new folder, implement and test with browser
+the example as documented in the section "Trying Out React":**
 
-https://facebook.github.io/react/docs/installation.html
+https://facebook.github.io/react/docs/installation.html#trying-out-react
 
-Because the tooling is so difficult, Facebook has recently created an
-application generator `create-react-app` that does the work behind
-the scenes. This approach, however, is fairly limiting and
-as such not recommended.
-
-The first tool one needs to get setup is Node.js (JavaScript runtime
+The first tool one needs to absolutely get setup is Node.js (JavaScript runtime
 for the desktop / server); Node.js includes a command-line package manager
 called `npm`.
 
@@ -38,13 +37,38 @@ called `npm`.
 
 https://nodejs.org/en/
 
+Because the tooling is so difficult, Facebook has created an
+application generator *create-react-app* that does the build work behind
+the scenes for you.
+
+**Assignment (30 Min): In a new folder, build an application as documented
+in the section "Creating a Single Page Application:"**
+
+https://facebook.github.io/react/docs/installation.html#creating-a-single-page-application
+
+While the most of the later lessons will be built using *create-react-app*,
+we will spend some time here implementing one part of the build process
+(the transpiling) using a more manual approach.
+
+In one of the last lessons, we will flesh out the build process so that
+we can be free of the limitations of using *create-react-app*. In
+modern web development, the build process is a crucial step in creating
+a performant web application.
+
 The next tool one needs to get setup is Babel; Babel (properly configured)
 will transpile ES6 with JSX into ES5.
 
-**Assignment (10 Min): In a new folder, install Babel and additional
-tools using the commands:**
+**note;** As a reminder, the rest of this lesson provides an alternative to
+using *create-react-app* and will not be revisited again until one of the
+last lessons.
+
+**Assignment (5 Min): In a new folder, initialize the package management
+configuration for the project using the following command.**
 
 `npm init`
+
+**Assignment (10 Min): In a new folder, install Babel and additional
+tools using the commands:**
 
 `npm install --save-dev babel-cli`
 
@@ -52,12 +76,7 @@ tools using the commands:**
 
 `npm install --save-dev babel-preset-react`
 
-`npm install --save-dev babel-plugin-transform-object-rest-spread`
-
 `npm install --save babel-polyfill`
-
-**note:** The package *babel-plugin-transform-object-rest-spread* is
-in preparation for using Redux later.
 
 **Assignment (5 Min): Create a Babel configuration file
 ".babelrc" as follows:**
@@ -86,6 +105,8 @@ will create the transpiled ES6 code in the *dist* folder.
 
 **Assignment (5 Min): Create the following "index.html" file in the "dist"
 folder**
+
+**note:**: The HTML file is not transpiled; only the JavaScript is.
 
 ```
 <!DOCTYPE html>
@@ -119,9 +140,9 @@ ReactDOM.render(
 
 `./node_modules/.bin/babel src -d dist`
 
-Now there is an ES5 *index.js* file; but now we need to create the
+Now there is a transpiled ES5 *index.js* file; but now we need to create the
 *bundle.js* file that bundles the application JavaScript and all the
-dependencies, e.g., React.
+dependencies, e.g., React, into one file.
 
 **Assignment (5 Min): Install the Browserify bundler application with the
 command:**
@@ -140,7 +161,8 @@ The final result of this lesson is available in this branch. Download and
 expand into a directory.
 
 While the *solution_1* folder is ready to go, one needs to run the following
-command in the *solution_2* folder to download the dependencies:
+command in the *solution_2* and *solutions_3* folders to download the
+dependencies:
 
 `npm install`
 
@@ -148,7 +170,13 @@ command in the *solution_2* folder to download the dependencies:
 
 To run the first solution, open web browser to the file *index.html*.
 
-One needs to build the second solution before opening it with a browser
+To run the second solution, use the command to build and serve the application:
+
+`npm run start`
+
+and open web browser to the provided URL.
+
+One needs to build the third solution before opening it with a browser
 (file *index.html*) with the following commands:
 
 `./node_modules/.bin/babel src -d dist`
