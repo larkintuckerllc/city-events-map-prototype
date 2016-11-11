@@ -62,13 +62,16 @@ will transpile ES6 with JSX into ES5.
 using *create-react-app* and will not be revisited again until one of the
 last lessons.
 
-**Assignment (5 Min): In a new folder, initialize the package management
-configuration for the project using the following command.**
+**Assignment (5 Min): In a new folder (referred to as the installation folder),
+initialize the package management configuration for the project
+using the following command.**
 
 `npm init`
 
-**Assignment (10 Min): In a new folder, install Babel and additional
-tools using the commands:**
+*note:* Just accept all the recommendations by hitting <Enter>.
+
+**Assignment (10 Min): From the installation folder install
+Babel and additional tools using the commands:**
 
 `npm install --save-dev babel-cli`
 
@@ -78,26 +81,26 @@ tools using the commands:**
 
 `npm install --save babel-polyfill`
 
-**Assignment (5 Min): Create a Babel configuration file
-".babelrc" as follows:**
+**Assignment (5 Min): In the installation folder create a Babel
+configuration file ".babelrc" as follows:**
 
 ```
 {
-  "presets": ["es2015", "react"],
-  "plugins": ["transform-object-rest-spread"]
+  "presets": ["es2015", "react"]
 }
 ```
 
 Now that we have Babel fully installed and configured, we need to
 install the React dependencies.
 
-**Assignment (5 Min): Install React dependencies with the following commands:**
+**Assignment (5 Min): From the installation folder Install React dependencies
+with the following commands:**
 
 `npm install --save react`
 
 `npm install --save react-dom`
 
-**Assignment (5 Min): In the previously created folder create folders named
+**Assignment (5 Min): In the installation folder create folders named
 "src" and "dist"**
 
 **note:** The *src* folder will hold the ES6 with JSX code and Babel
@@ -136,27 +139,30 @@ ReactDOM.render(
 );
 ```
 
-**Assignment (5 Min): Transpile the JavaScript using Babel with the command:**
+**Assignment (5 Min): From the installatino folder, transpile the JavaScript
+using Babel with the command:**
 
 `./node_modules/.bin/babel src -d dist`
 
-Now there is a transpiled ES5 *index.js* file; but now we need to create the
-*bundle.js* file that bundles the application JavaScript and all the
-dependencies, e.g., React, into one file.
+Now there is a transpiled ES5 *index.js* file in the *dist* folder; but now we
+need to create the *bundle.js* file that bundles the application JavaScript
+and all the dependencies, e.g., React, into one file.
 
-**Assignment (5 Min): Install the Browserify bundler application with the
-command:**
+**Assignment (5 Min): From the installatino folder install the Browserify
+bundler application with the command:**
 
 `sudo npm install -g browserify`
 
-**Assignment (5 Min): Create the "bundle.js" file with the command:**
+**Assignment (5 Min): From the "dist" folder create the "bundle.js" file
+with the command:**
 
 `browserify index.js -o bundle.js`
 
-**Assignment (5 Min): Open the "index.html" file using a browser**
+**Assignment (5 Min): Open the "index.html" file in the *dist* folder using
+a browser**
 
 **note:** In the end, the files actually used by the browser for the application
-are *index.html* and *bundle.js*.  
+are *dist/index.html* and *dist/bundle.js*.  
 
 ### Installation
 
