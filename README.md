@@ -155,6 +155,9 @@ command:**
 
 **Assignment (5 Min): Open the "index.html" file using a browser**
 
+**note:** In the end, the files actually used by the browser for the application
+are *index.html* and *bundle.js*.  
+
 ### Installation
 
 The final result of this lesson is available in this branch. Download and
