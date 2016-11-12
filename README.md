@@ -46,6 +46,9 @@ in the section "Creating a Single Page Application:"**
 
 https://facebook.github.io/react/docs/installation.html#creating-a-single-page-application
 
+**note:** Running *create-react-app* in Windows took about 5 minutes;
+just be patient.
+
 While the most of the later lessons will be built using *create-react-app*,
 we will spend some time here implementing one part of the build process
 (the transpiling) using a more manual approach.
@@ -142,7 +145,8 @@ ReactDOM.render(
 **Assignment (5 Min): From the installatino folder, transpile the JavaScript
 using Babel with the command:**
 
-`./node_modules/.bin/babel src -d dist`
+Linux / OS X: `./node_modules/.bin/babel src -d dist`
+Windows: `node_modules\.bin\babel src -d dist`
 
 Now there is a transpiled ES5 *index.js* file in the *dist* folder; but now we
 need to create the *bundle.js* file that bundles the application JavaScript
@@ -151,7 +155,8 @@ and all the dependencies, e.g., React, into one file.
 **Assignment (5 Min): From the installatino folder install the Browserify
 bundler application with the command:**
 
-`sudo npm install -g browserify`
+Linux / OS X: `sudo npm install -g browserify`
+Windows: `npm install -g browserify`
 
 **Assignment (5 Min): From the "dist" folder create the "bundle.js" file
 with the command:**
@@ -162,7 +167,7 @@ with the command:**
 a browser**
 
 **note:** In the end, the files actually used by the browser for the application
-are *dist/index.html* and *dist/bundle.js*.  
+are *index.html* and *bundle.js* in the *dist* folder.
 
 ### Installation
 
@@ -188,7 +193,8 @@ and open web browser to the provided URL.
 One needs to build the third solution before opening it with a browser
 (file *index.html*) with the following commands:
 
-`./node_modules/.bin/babel src -d dist`
+Linux / OS X: `./node_modules/.bin/babel src -d dist`
+Windows: `node_modules\.bin\babel src -d dist`
 
 From within the *dist* folder:
 
