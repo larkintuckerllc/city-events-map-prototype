@@ -142,7 +142,7 @@ ReactDOM.render(
 );
 ```
 
-**Assignment (5 Min): From the installatino folder, transpile the JavaScript
+**Assignment (5 Min): From the installation folder, transpile the JavaScript
 using Babel with the command:**
 
 Linux / OS X: `./node_modules/.bin/babel src -d dist`
@@ -153,7 +153,7 @@ Now there is a transpiled ES5 *index.js* file in the *dist* folder; but now we
 need to create the *bundle.js* file that bundles the application JavaScript
 and all the dependencies, e.g., React, into one file.
 
-**Assignment (5 Min): From the installatino folder install the Browserify
+**Assignment (5 Min): From the installation folder install the Browserify
 bundler application with the command:**
 
 Linux / OS X: `sudo npm install -g browserify`
