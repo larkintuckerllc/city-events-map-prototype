@@ -146,6 +146,7 @@ ReactDOM.render(
 using Babel with the command:**
 
 Linux / OS X: `./node_modules/.bin/babel src -d dist`
+
 Windows: `node_modules\.bin\babel src -d dist`
 
 Now there is a transpiled ES5 *index.js* file in the *dist* folder; but now we
@@ -156,6 +157,7 @@ and all the dependencies, e.g., React, into one file.
 bundler application with the command:**
 
 Linux / OS X: `sudo npm install -g browserify`
+
 Windows: `npm install -g browserify`
 
 **Assignment (5 Min): From the "dist" folder create the "bundle.js" file
@@ -194,6 +196,7 @@ One needs to build the third solution before opening it with a browser
 (file *index.html*) with the following commands:
 
 Linux / OS X: `./node_modules/.bin/babel src -d dist`
+
 Windows: `node_modules\.bin\babel src -d dist`
 
 From within the *dist* folder:
