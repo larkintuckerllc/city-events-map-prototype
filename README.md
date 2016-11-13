@@ -152,6 +152,57 @@ The big win, however, comes as applications get more complex
 and data needs to be accessed or updated from multiple
 parts of the application.
 
+One interesting and incredibly helpful tool for developing with Redux is a
+Chrome extension called *Redux DevTools*; to a lessor extent the Chrome
+extension *React Developer Tools* is helpful for developing with React.
+
+**Assignment (5 Min): Install "Redux DevTools" and "React Developer Tools"
+into Chrome browser**
+
+Without any additional configuration, *React Developer Tools* will be
+usable as a tab in *Chrome Developer Tools* (when viewing a React
+page). As a matter of fact, one can view this counter app and see the
+two properties (aka. props) being passed to the *App* component.
+
+**Assignment (5 Min): Configure the counter app to work with "Redux
+DevTools by updating "index.js in "src" as follows:**
+
+Replace the line
+
+```
+const store = createStore(counter);
+```
+
+with:
+
+```
+const middlewares = [];
+const store = createStore(
+  counter,
+  compose(
+    applyMiddleware(...middlewares),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
+);
+```
+
+Replace the line
+
+```
+import { createStore } from 'redux';
+```
+
+with
+
+```
+import { applyMiddleware, compose, createStore } from 'redux';
+```
+
+**note:** Went ahead and stubbed in the *middlewares* for the next lesson.
+
+With this in place, one can view the increment actions and their
+impact on the state from the *Redux* tab in *Chrome Developer Tools*.
+
 ### Installation
 
 The final result of this lesson is available in this branch. Download and
