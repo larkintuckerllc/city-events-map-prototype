@@ -144,8 +144,29 @@ export default connect(
 current value of the counter (0) and the button will
 increment the value by one.
 
-At the surface, this all seems like a lot of work to simply
+At the surface, this all seems like a lot of boilerplate code to simply
 increment a counter on a screen; this could have been done in
-two or three lines of plain JavaScript (aka. vanillaJS).
+a couple of lines of plain JavaScript (aka. vanillaJS).
 
-The big win, however, 
+The big win, however, comes as applications get more complex
+and data needs to be accessed or updated from multiple
+parts of the application.
+
+### Installation
+
+The final result of this lesson is available in this branch. Download and
+expand into a directory.
+
+Run the following command in the *counter* folder to download the
+dependencies:
+
+`npm install`
+
+### Usage
+
+To run the solution, use the command in the *counter* folder to build
+and serve the application:
+
+`npm run start`
+
+and open web browser to the provided URL.
