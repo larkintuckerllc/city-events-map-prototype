@@ -8,149 +8,70 @@ the React / Redux framework. An introduction and instructions on using
 these lessons are provided in the README of the *master* branch of this
 repository.
 
-Now that we have some familiarity with React and how to develop
-(build) it locally, we need to get up to speed with Redux. Again, Redux,
-is a popular implementation of the Flux architecture that is often paired
-with React to form a complete application framework.
+Now that we have been introduced to all core concepts of the React / Redux
+framework, we will begin to build out the "City Events Map Prototype"
+application.
 
-**note:** It is important to note that React does not require
-Redux; nor does Redux require React.
+The application is designed to display city events (from an API) on a map
+filtered by location and time. This lesson will focus on the getting
+the data from the API into the Redux store.
 
-**Assignment (1 Hr): Read through the following tutorial; ensure that one
-has a theoretical understanding of the key concepts (action creator,
-reducer, and store):**
+The first step is to provide a mock API and a way to access it.
 
-https://www.codementor.io/reactjs/tutorial/intro-to-react-redux-pros
-
-With a theoretical understanding of Redux, we will build a simple applications
-that increments a counter that illustrates the the concepts in action.
-
-**Assignment (5 Min): Using the following commands, create a new
-React application and start it:**
-
-`create-react-app solution`
-
-Go into the folder *solution* and:
-
-`npm run start`
-
-**Assignment (5 Min): Simplify the implementation to a "hello world"
-application as follows:**
-
-In the *src* folder edit the *App.js* file replacing the *return*
-value to:
+**Assignment (5 Min): Working from the solution from *Lesson 4* create
+a folder called "apis" in the "src" folder with a file named "events.js"
+in it with:**
 
 ```
-<div>Hello World</div>
-```
-
-and removing the line:
-
-```
-import logo from './logo.svg';
-```
-
-In the *src* folder, remove the contents of the *App.css* file and
-delete the *logo.svg* file.
-
-**note:** The browser window will automatically reload as one saves
-changes to files.
-
-**Assignment (5 Min): Install the Redux modules with the following commands
-from within the "solution" folder:**
-
-`npm install --save redux`
-
-`npm install --save react-redux`
-
-**Assignment (5 Min): Create the "counter" reducer, accessor, and action
-creator by creating a file "counter.js" in "src" as follows:**
-
-```
-// REDUCER
-export default (state = 0, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    default:
-      return state;
-  }
+const fakeDatabase = {
+  collection: [{
+    id: 0,
+    name: 'Code for Gainesville',
+    start: 0,
+    end: 0,
+    lat: 29.649062,
+    lng: -82.331487,
+  }, {
+    id: 1,
+    name: 'Infinity Hall Event',
+    start: 0,
+    end: 0,
+    lat: 29.650661,
+    lng: -82.334829,
+  }],
 };
-// ACCESSOR
-export const getCounter = (state) => state;
-// ACTION CREATOR
-export const increment = () => ({
-  type: 'INCREMENT'
-});
+const delay = (ms) =>
+  new Promise(resolve => window.setTimeout(resolve, ms));
+// eslint-disable-next-line
+export const getEvents = () =>
+  delay(2000).then(() =>
+    fakeDatabase.collection.map(o => ({ ...o }))
+  );
 ```
 
-**Assignment (5 Min): Implement Redux (with the counter) in application by
-updating the "index.js" file in "src" to be as follows:**
+With the API in place, we will build the Redux reducers, accessors, and
+action creators that interact with the API.
+
+**Assignment (5 Min): In the *solution* folder enter the commands:**
+
+`npm install --save normalizr`
+
+`npm install --save redux-thunk`
+
+**note:** These modules are helpful with handling asynchronous APIs
+that return arrays.
+
+**Assignment (5 Min): Create a folder called "ducks" in the "src" folder
+with a file named "events.js" in it with:**
+
+**note:** At this point, we will focus on how to use this file rather than
+the details of the implementation.
 
 ```
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import counter from './counter';
-import App from './App';
-import './index.css';
-
-const store = createStore(counter);
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-);
+// TODO
 ```
 
-**Assignment (5 Min): Connect the "App" component to Redux
-(and in particular the counter) by updating the "App.js" file in "src"
-to be as follows:**
-
-```
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import * as fromCounter from './counter.js';
-import './App.css';
-
-class App extends Component {
-  render() {
-    const { counter, increment } = this.props;
-    return (
-      <div>
-        <div>{counter}</div>
-        <button onClick={increment}>Increment</button>
-      </div>
-    );
-  }
-}
-App.propTypes = {
-  counter: PropTypes.number.isRequired,
-  increment: PropTypes.func.isRequired,
-}
-export default connect(
-  (state) => ({
-    counter: fromCounter.getCounter(state),
-  }),
-  {
-    increment: fromCounter.increment,
-  }
-)(App);
-```
-
-**note:** At this point, the *App* component will render the
-current value of the counter (0) and the button will
-increment the value by one.
-
-At the surface, this all seems like a lot of boilerplate code to simply
-increment a counter on a screen; this could have been done in
-a couple of lines of plain JavaScript (aka. vanillaJS).
-
-The big win, however, comes as applications get more complex
-and data needs to be accessed or updated from multiple
-parts of the application.
+// TODO: UPDATE index.js
 
 ### Installation
 
