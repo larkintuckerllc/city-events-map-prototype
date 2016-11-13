@@ -1,6 +1,6 @@
 # City Events Map Prototype
 
-## Lesson 4
+## Lesson 5
 
 This is one lesson in a series designed to bring a developer, already
 familiar with the basics of HTML, CSS, and JavaScript, up to speed with
@@ -8,197 +8,144 @@ the React / Redux framework. An introduction and instructions on using
 these lessons are provided in the README of the *master* branch of this
 repository.
 
-One of the more challenging, and poorly documented, aspects of React
-development is the tooling. Specifically, most React examples are
-written in ES6 (aka, ES2015, modern version of JavaScript) with JSX (the XML);
-neither of which are supported by browsers. There are tools designed
-to convert (aka, transpile) the ES6 with JSX into ES5 (the JavaScript that
-browsers currently support).
+Now that we have some familiarity with React and how to develop
+(build) it locally, we need to get up to speed with Redux. Again, Redux,
+is a popular implementation of the Flux architecture that is often paired
+with React to form a complete application framework.
 
-**note:** One may be wondering why use ES6 with JSX at all (one can write
-React applications with out it). The answer is that this new language makes
-it significantly easier to build applications.
+**note:** It is important to note that React does not require
+Redux; nor does Redux require React.
 
-The first approach to transpiling is to have the browser do it. This
-approach is relatively simple (no tools) but because of performance issues,
-is not to be used in production or outside of a simple "hello world"
-example.
+**Assignment (1 Hr): Read through the following tutorial; ensure that one
+has a theoretical understanding of the key concepts (action creator,
+reducer, and store):**
 
-**Assignment (5 Min): In a new folder, implement and test with browser
-the example as documented in the section "Trying Out React":**
+https://www.codementor.io/reactjs/tutorial/intro-to-react-redux-pros
 
-https://facebook.github.io/react/docs/installation.html#trying-out-react
+With a theoretical understanding of Redux, we will build a simple applications
+that increments a counter that illustrates the the concepts in action.
 
-The first tool one needs to absolutely get setup is Node.js (JavaScript runtime
-for the desktop / server); Node.js includes a command-line package manager
-called `npm`.
+**Assignment (5 Min): Using the following commands, create a new
+React application and start it:**
 
-**Assignment (5 Min): Install Node.js from:**
+`create-react-app counter`
 
-https://nodejs.org/en/
+Go into the folder *counter* and:
 
-Because the tooling is so difficult, Facebook has created an
-application generator *create-react-app* that does the build work behind
-the scenes for you.
+`npm run start`
 
-**Assignment (30 Min): In a new folder, build an application as documented
-in the section "Creating a Single Page Application:"**
+**Assignment (5 Min): Simplify the implementation to a "hello world"
+application as follows:**
 
-https://facebook.github.io/react/docs/installation.html#creating-a-single-page-application
-
-**note:** Running *create-react-app* in Windows took about 5 minutes;
-just be patient.
-
-While the most of the later lessons will be built using *create-react-app*,
-we will spend some time here implementing one part of the build process
-(the transpiling) using a more manual approach.
-
-In one of the last lessons, we will flesh out the build process so that
-we can be free of the limitations of using *create-react-app*. In
-modern web development, the build process is a crucial step in creating
-a performant web application.
-
-The next tool one needs to get setup is Babel; Babel (properly configured)
-will transpile ES6 with JSX into ES5.
-
-**note;** As a reminder, the rest of this lesson provides an alternative to
-using *create-react-app* and will not be revisited again until one of the
-last lessons.
-
-**Assignment (5 Min): In a new folder (referred to as the installation folder),
-initialize the package management configuration for the project
-using the following command.**
-
-`npm init`
-
-*note:* Just accept all the recommendations by hitting <Enter>.
-
-**Assignment (10 Min): From the installation folder install
-Babel and additional tools using the commands:**
-
-`npm install --save-dev babel-cli`
-
-`npm install --save-dev babel-preset-es2015`
-
-`npm install --save-dev babel-preset-react`
-
-`npm install --save babel-polyfill`
-
-**Assignment (5 Min): In the installation folder create a Babel
-configuration file ".babelrc" as follows:**
+In the *src* folder edit the *App.js* file replacing the *return*
+value to:
 
 ```
-{
-  "presets": ["es2015", "react"]
-}
+<div>Hello World</div>
 ```
 
-Now that we have Babel fully installed and configured, we need to
-install the React dependencies.
-
-**Assignment (5 Min): From the installation folder Install React dependencies
-with the following commands:**
-
-`npm install --save react`
-
-`npm install --save react-dom`
-
-**Assignment (5 Min): In the installation folder create folders named
-"src" and "dist"**
-
-**note:** The *src* folder will hold the ES6 with JSX code and Babel
-will create the transpiled ES6 code in the *dist* folder.
-
-**Assignment (5 Min): Create the following "index.html" file in the "dist"
-folder**
-
-**note:**: The HTML file is not transpiled; only the JavaScript is.
+and removing the line:
 
 ```
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-  </head>
-  <body>
-    <div id="root" />
-    <script src="bundle.js"></script>
-  </body>
-</html>
+import logo from './logo.svg';
 ```
 
-**Assignment (5 Min): Create the following ES6 with JSX file, "index.jsx"
-in the "src" folder**
+In the *src* folder, remove the contents of the *App.css* file and
+delete the *logo.svg* file.
+
+**note:** The browser window will automatically reload as one saves
+changes to files.
+
+**Assignment (5 Min): Install the Redux modules with the following commands
+from within the "counter" folder:**
+
+`npm install --save redux`
+
+`npm install --save react-redux`
+
+**Assignment (5 Min): Create the "counter" reducer, accessor, and action
+creator by creating a file "counter.js" in "src" as follows:**
 
 ```
-import 'babel-polyfill';
+// REDUCER
+export default (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1;
+    default:
+      return state;
+  }
+};
+// ACCESSOR
+export const getCounter = (state) => state;
+// ACTION CREATOR
+export const increment = () => ({
+  type: 'INCREMENT'
+});
+```
+
+**Assignment (5 Min): Implement Redux (with the counter) in application by
+updating the "index.js" file in "src" to be as follows:**
+
+```
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import counter from './counter';
+import App from './App';
+import './index.css';
 
+const store = createStore(counter);
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 ```
 
-**Assignment (5 Min): From the installation folder, transpile the JavaScript
-using Babel with the command:**
+**Assignment (5 Min): Connect the "App" component to Redux
+(and in particular the counter) by updating the "App.js" file in "src"
+to be as follows:**
 
-Linux / OS X: `./node_modules/.bin/babel src -d dist`
+```
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import * as fromCounter from './counter.js';
+import './App.css';
 
-Windows: `node_modules\.bin\babel src -d dist`
+class App extends Component {
+  render() {
+    const { counter, increment } = this.props;
+    return (
+      <div>
+        <div>{counter}</div>
+        <button onClick={increment}>Increment</button>
+      </div>
+    );
+  }
+}
+App.propTypes = {
+  counter: PropTypes.number.isRequired,
+  increment: PropTypes.func.isRequired,
+}
+export default connect(
+  (state) => ({
+    counter: fromCounter.getCounter(state),
+  }),
+  {
+    increment: fromCounter.increment,
+  }
+)(App);
+```
 
-Now there is a transpiled ES5 *index.js* file in the *dist* folder; but now we
-need to create the *bundle.js* file that bundles the application JavaScript
-and all the dependencies, e.g., React, into one file.
+**note:** At this point, the *App* component will render the
+current value of the counter (0) and the button will
+increment the value by one.
 
-**Assignment (5 Min): From the installation folder install the Browserify
-bundler application with the command:**
+At the surface, this all seems like a lot of work to simply
+increment a counter on a screen; this could have been done in
+two or three lines of plain JavaScript (aka. vanillaJS).
 
-Linux / OS X: `sudo npm install -g browserify`
-
-Windows: `npm install -g browserify`
-
-**Assignment (5 Min): From the "dist" folder create the "bundle.js" file
-with the command:**
-
-`browserify index.js -o bundle.js`
-
-**Assignment (5 Min): Open the "index.html" file in the *dist* folder using
-a browser**
-
-**note:** In the end, the files actually used by the browser for the application
-are *index.html* and *bundle.js* in the *dist* folder.
-
-### Installation
-
-The final result of this lesson is available in this branch. Download and
-expand into a directory.
-
-While the *solution_1* folder is ready to go, one needs to run the following
-command in the *solution_2* and *solutions_3* folders to download the
-dependencies:
-
-`npm install`
-
-### Usage
-
-To run the first solution, open web browser to the file *index.html*.
-
-To run the second solution, use the command to build and serve the application:
-
-`npm run start`
-
-and open web browser to the provided URL.
-
-One needs to build the third solution before opening it with a browser
-(file *index.html*) with the following commands:
-
-Linux / OS X: `./node_modules/.bin/babel src -d dist`
-
-Windows: `node_modules\.bin\babel src -d dist`
-
-From within the *dist* folder:
-
-`browserify index.js -o bundle.js`
+The big win, however, 
