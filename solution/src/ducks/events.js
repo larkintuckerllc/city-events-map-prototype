@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { normalize, Schema, arrayOf } from 'normalizr';
-import * as fromEvents from '../api/events';
+import * as fromEvents from '../apis/events';
 
 function ServerException(message) {
   this.name = 'ServerException';
@@ -15,9 +15,7 @@ const eventsSchema = arrayOf(eventSchema);
 const byId = (state = {}, action) => {
   switch (action.type) {
     case FETCH_EVENTS_SUCCESS: {
-      return {
-        ...action.response.entities.events,
-      };
+      return action.response.entities.events;
     }
     default:
       return state;
@@ -72,7 +70,7 @@ export const fetchEvents = () => (dispatch, getState) => {
   dispatch({
     type: FETCH_EVENTS_REQUEST,
   });
-  return getCollection()
+  return fromEvents.getEvents()
     .then(
       response => dispatch({
         type: FETCH_EVENTS_SUCCESS,
