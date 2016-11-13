@@ -28,9 +28,9 @@ that increments a counter that illustrates the the concepts in action.
 **Assignment (5 Min): Using the following commands, create a new
 React application and start it:**
 
-`create-react-app counter`
+`create-react-app solution`
 
-Go into the folder *counter* and:
+Go into the folder *solution* and:
 
 `npm run start`
 
@@ -57,7 +57,7 @@ delete the *logo.svg* file.
 changes to files.
 
 **Assignment (5 Min): Install the Redux modules with the following commands
-from within the "counter" folder:**
+from within the "solution" folder:**
 
 `npm install --save redux`
 
@@ -157,14 +157,14 @@ parts of the application.
 The final result of this lesson is available in this branch. Download and
 expand into a directory.
 
-Run the following command in the *counter* folder to download the
+Run the following command in the *solution* folder to download the
 dependencies:
 
 `npm install`
 
 ### Usage
 
-To run the solution, use the command in the *counter* folder to build
+To run the solution, use the command in the *solution* folder to build
 and serve the application:
 
 `npm run start`
