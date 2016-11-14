@@ -10,19 +10,45 @@ class App extends Component {
   componentDidMount() {
     const { fetchEvents } = this.props;
     fetchEvents();
+    window.initMap = this.initMap;
+    if (!window.google) {
+      const scriptEl = document.createElement('script');
+      scriptEl.setAttribute('async', true);
+      scriptEl.setAttribute('src',
+        'https://maps.googleapis.com/maps/api/js?key=AIzaSyAGQ5X1QBHNCiX9A2P5XCl69uCLS0W5fTw&callback=initMap');
+      document.body.appendChild(scriptEl);
+    }
   }
   componentWillReceiveProps() {
     this.setState({ initialProps: false });
   }
+  componentWillUnmount() {
+    this.map = null;
+  }
+  initMap() {
+    const mapEl = document.getElementById('map');
+    this.map = new window.google.maps.Map(mapEl, {
+      zoom: 16,
+      center: { lat: 29.650134, lng: -82.335046 },
+      disableDefaultUI: true,
+      zoomControl: true,
+    });
+  }
   render() {
     const { initialProps } = this.state;
-    if (initialProps) return null;
-    const { events, fetchEventsErrorMessage, isFetchingEvents } = this.props;
-    if (isFetchingEvents) return <div>Loading...</div>;
-    if (fetchEventsErrorMessage !== null) return <div>Failed...</div>;
-    window.console.log(events);
+    const { fetchEventsErrorMessage, isFetchingEvents } = this.props;
+    let visibility = 'visible';
+    if (initialProps || isFetchingEvents ||
+      fetchEventsErrorMessage !== null) visibility = 'hidden';
     return (
-      <div>Hello World</div>
+      <div id="container">
+        { isFetchingEvents && <div>Loading...</div> }
+        { fetchEventsErrorMessage !== null && <div>Failed...</div> }
+        <div
+          id="map"
+          style={{visibility}}
+        />
+      </div>
     );
   }
 }

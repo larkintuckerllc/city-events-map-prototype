@@ -1,5 +1,9 @@
-body {
+html, body {
   margin: 0;
+  height: 100%;
   padding: 0;
   font-family: sans-serif;
+}
+#root, #container, #map {
+  height: 100%;
 }

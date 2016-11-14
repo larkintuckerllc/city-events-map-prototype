@@ -1,6 +1,6 @@
 # City Events Map Prototype
 
-## Lesson 7
+## Lesson 8
 
 This is one lesson in a series designed to bring a developer, already
 familiar with the basics of HTML, CSS, and JavaScript, up to speed with
@@ -8,108 +8,84 @@ the React / Redux framework. An introduction and instructions on using
 these lessons are provided in the README of the *master* branch of this
 repository.
 
-Now that have done the complicated Redux work, we will focus on displaying
-the events in the *App* component.
+With the event information available in the *App* component, we
+now integrate the Google Maps JavaScript API that we explored in
+an earlier lesson.
 
-**note:** While that Redux work was complicated this first time, as we
-add more features to our application the additional Redux work follows
-very repeatable patterns.
-
-**Assignment (10 Min): Connect the "App" component to the "events"
-Redux implementation by updating the file "App.js" in "src" to:**
+**Assignment (5 Min): Update the "index.css" file in the "src" folder to:**
 
 ```
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import * as fromEvents from './ducks/events';
-import './App.css';
-
-class App extends Component {
-  render() {
-    return (
-      <div>Hello World</div>
-    );
-  }
+html, body {
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  font-family: sans-serif;
 }
-App.propTypes = {
-  events: PropTypes.array.isRequired,
-  fetchEvents: PropTypes.func.isRequired,
-  fetchEventsErrorMessage: PropTypes.string,
-  isFetchingEvents: PropTypes.bool.isRequired,
-};
-export default connect(
-  (state) => ({
-    events: fromEvents.getEvents(state),
-    fetchEventsErrorMessage: fromEvents.getFetchEventsErrorMessage(state),
-    isFetchingEvents: fromEvents.getIsFetchingEvents(state),
-  }),
-  {
-    fetchEvents: fromEvents.fetchEvents,
-  }
-)(App);
-```
-
-Using *React Developer Tools* one can inspect the properties
-being passed into the *App* component.
-
-Next, we will use the properties in the *App* component.
-
-**Assignment (5 Min): Add the following method (before *render*) to the "App"
-component to populate the store with the mock data.**
-
-```
-componentDidMount() {
-  const { fetchEvents } = this.props;
-  fetchEvents();
+#root, #container, #map {
+  height: 100%;
 }
 ```
 
-Again, use *React Developer Tools* one can inspect the properties
-being passed into the *App* component. *Redux DevTools* can be used
-to inspect the actions.
+**Assignment (5 Min): To render the map, update the "App.js" file in the
+"src" folder as follows:**
 
-**Assignment (5 Min): Update the "render" method of the "App.js"
-file in the "src" folder to:**
+In the *render* methods replace:
 
 ```
-render() {
-  const { events, fetchEventsErrorMessage, isFetchingEvents } = this.props;
-  if (isFetchingEvents) return <div>Loading...</div>;
-  if (fetchEventsErrorMessage !== null) return <div>Failed...</div>;
-  window.console.log(events);
-  return (
-    <div>Hello World</div>
-  );
+<div>Hello World</div>
+```
+
+with
+
+```
+<div
+  id="map"
+  style={{visibility}}
+/>
+```
+
+Add the following method above the "render" method.
+
+```
+initMap() {
+  const mapEl = document.getElementById('map');
+  this.map = new window.google.maps.Map(mapEl, {
+    zoom: 16,
+    center: { lat: 29.650134, lng: -82.335046 },
+    disableDefaultUI: true,
+    zoomControl: true,
+  });
 }
 ```
 
-One problem with this implementation is that when the *App* component
-first loads, *events* is an empty array and *isFetchingEvents* is *false*.
-To prevent rending on the first load, we will use the component's state.
-
-**Assignment (5 Min): Update the "App.js" file in the "src" folder as follows:**
-
-Add the following method before *componentDidMount*.
+Add the following constructor as the top of the *App* component:
 
 ```
-componentWillMount() {
-  this.setState({ initialProps: true });
+constructor() {
+  super();
+  this.initMap = this.initMap.bind(this);
 }
 ```
 
-Add the following method after *componentDidMount*.
+Add the following at the end of the *componentDidMount* method:
 
 ```
-componentWillReceiveProps() {
-  this.setState({ initialProps: false });
+window.initMap = this.initMap;
+if (!window.google) {
+  const scriptEl = document.createElement('script');
+  scriptEl.setAttribute('async', true);
+  scriptEl.setAttribute('src',
+    'https://maps.googleapis.com/maps/api/js?key=AIzaSyAGQ5X1QBHNCiX9A2P5XCl69uCLS0W5fTw&callback=initMap');
+  document.body.appendChild(scriptEl);
 }
 ```
 
-Add the following to the top of the *render* method:
+Add the following method after the *componentWillReceiveProps* method:
 
 ```
-const { initialProps } = this.state;
-if (initialProps) return null;
+componentWillUnmount() {
+  this.map = null;
+}
 ```
 
 ### Installation
