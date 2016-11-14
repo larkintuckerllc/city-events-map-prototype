@@ -32,16 +32,13 @@ html, body {
 In the *render* methods replace:
 
 ```
-<div>Hello World</div>
+<div style={{visibility}}>Hello World</div>
 ```
 
 with
 
 ```
-<div
-  id="map"
-  style={{visibility}}
-/>
+<div id="map" style={{visibility}} />
 ```
 
 Add the following method above the "render" method.

@@ -37,17 +37,13 @@ class App extends Component {
   render() {
     const { initialProps } = this.state;
     const { fetchEventsErrorMessage, isFetchingEvents } = this.props;
-    let visibility = 'visible';
-    if (initialProps || isFetchingEvents ||
-      fetchEventsErrorMessage !== null) visibility = 'hidden';
+    const visibility = (initialProps || isFetchingEvents ||
+      fetchEventsErrorMessage !== null) ? 'hidden' : 'visible';
     return (
       <div id="container">
         { isFetchingEvents && <div>Loading...</div> }
         { fetchEventsErrorMessage !== null && <div>Failed...</div> }
-        <div
-          id="map"
-          style={{visibility}}
-        />
+        <div id="map" style={{visibility}} />
       </div>
     );
   }
