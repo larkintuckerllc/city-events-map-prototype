@@ -16,13 +16,15 @@ class App extends Component {
   }
   render() {
     const { initialProps } = this.state;
-    if (initialProps) return null;
-    const { events, fetchEventsErrorMessage, isFetchingEvents } = this.props;
-    if (isFetchingEvents) return <div>Loading...</div>;
-    if (fetchEventsErrorMessage !== null) return <div>Failed...</div>;
-    window.console.log(events);
+    const { fetchEventsErrorMessage, isFetchingEvents } = this.props;
+    const visibility = (initialProps || isFetchingEvents ||
+      fetchEventsErrorMessage !== null) ? 'hidden' : 'visible';
     return (
-      <div>Hello World</div>
+      <div id="container">
+        { isFetchingEvents && <div>Loading...</div> }
+        { fetchEventsErrorMessage !== null && <div>Failed...</div> }
+        <div style={{visibility}}>Hello World</div>
+      </div>
     );
   }
 }
