@@ -18,12 +18,17 @@ Redux; nor does Redux require React.
 
 **Assignment (1 Hr): Read through the following tutorial; ensure that one
 has a theoretical understanding of the key concepts (action creator,
-reducer, and store):**
+reducer, and store); one need NOT be focused on implementation details:**
 
 https://www.codementor.io/reactjs/tutorial/intro-to-react-redux-pros
 
 With a theoretical understanding of Redux, we will build a simple applications
 that increments a counter that illustrates the the concepts in action.
+
+**Assignment (10 Min): If one does not have a good JavaScript editor,
+install Atom.**
+
+https://atom.io
 
 **Assignment (5 Min): Using the following commands, create a new
 React application and start it:**
@@ -38,7 +43,7 @@ Go into the folder *solution* and:
 application as follows:**
 
 In the *src* folder edit the *App.js* file replacing the *return*
-value to:
+value of the *render* method to:
 
 ```
 <div>Hello World</div>
@@ -83,6 +88,11 @@ export const increment = () => ({
   type: 'INCREMENT'
 });
 ```
+
+**note:** The typical way the above code gets used is: A component will
+use the accessor to obtain the value of the counter. It will
+use the action creator to initiate the increment action. Redux will use
+the reducer to update the value of the counter.
 
 **Assignment (5 Min): Implement Redux (with the counter) in application by
 updating the "index.js" file in "src" to be as follows:**
