@@ -1,9 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import * as fromEvents from './ducks/events';
+import * as fromTime from './ducks/time';
+import Rcslider from 'rc-slider';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.initMap = this.initMap.bind(this);
+  }
   componentWillMount() {
     this.setState({ initialProps: true });
   }
@@ -26,7 +32,7 @@ class App extends Component {
     this.map = null;
   }
   initMap() {
-    const mapEl = document.getElementById('map');
+    const mapEl = document.getElementById('container__loaded__map');
     this.map = new window.google.maps.Map(mapEl, {
       zoom: 16,
       center: { lat: 29.650134, lng: -82.335046 },
@@ -36,14 +42,26 @@ class App extends Component {
   }
   render() {
     const { initialProps } = this.state;
-    const { fetchEventsErrorMessage, isFetchingEvents } = this.props;
+    const { fetchEventsErrorMessage, isFetchingEvents, time } = this.props;
     const visibility = (initialProps || isFetchingEvents ||
       fetchEventsErrorMessage !== null) ? 'hidden' : 'visible';
+    window.console.log(time);
     return (
       <div id="container">
         { isFetchingEvents && <div>Loading...</div> }
         { fetchEventsErrorMessage !== null && <div>Failed...</div> }
-        <div id="map" style={{visibility}} />
+        <div id="container__loaded" style={{visibility}}>
+          <div id="container__loaded__time">
+            <Rcslider
+              min={0}
+              max={23}
+              vertical={true}
+              tipFormater={null}
+              value={time}
+            />
+          </div>
+          <div id="container__loaded__map" />
+        </div>
       </div>
     );
   }
@@ -53,14 +71,18 @@ App.propTypes = {
   fetchEvents: PropTypes.func.isRequired,
   fetchEventsErrorMessage: PropTypes.string,
   isFetchingEvents: PropTypes.bool.isRequired,
+  setTime: PropTypes.func.isRequired,
+  time: PropTypes.number.isRequired,
 };
 export default connect(
   (state) => ({
     events: fromEvents.getEvents(state),
     fetchEventsErrorMessage: fromEvents.getFetchEventsErrorMessage(state),
     isFetchingEvents: fromEvents.getIsFetchingEvents(state),
+    time: fromTime.getTime(state),
   }),
   {
     fetchEvents: fromEvents.fetchEvents,
+    setTime: fromTime.setTime,
   }
 )(App);

@@ -58,12 +58,12 @@ export default combineReducers({
   fetchErrorMessage,
 });
 // ACCESSORS
-export const getEvent = (state, id) => state.byId[id];
+export const getEvent = (state, id) => state.events.byId[id];
 export const getEvents = (state) =>
-  state.ids.map(id => getEvent(state, id));
-export const getIsFetchingEvents = (state) => state.isFetching;
+  state.events.ids.map(id => getEvent(state, id));
+export const getIsFetchingEvents = (state) => state.events.isFetching;
 export const getFetchEventsErrorMessage = (state) =>
-  state.fetchErrorMessage;
+  state.events.fetchErrorMessage;
 // ACTION CREATORS
 export const fetchEvents = () => (dispatch, getState) => {
   if (getIsFetchingEvents(getState())) throw new Error();
