@@ -12,7 +12,16 @@ With the event information available in the *App* component, we
 now integrate the Google Maps JavaScript API that we explored in
 an earlier lesson.
 
-**Assignment (5 Min): Update the "index.css" file in the "src" folder to:**
+One of the challenges of using the Google Maps JavaScript API is that
+the interface to it is JavaScript, e.g., one creates and interacts with a 
+*Map* object. While this sort of interface is very different than the
+more familiar React pattern (rendering JSX), React (with the component
+lifecycle methods) handles it well.
+
+First, we will do the more familiar work.
+
+**Assignment (5 Min): Using the solution from the previous lesson,
+Update the "index.css" file in the "src" folder to:**
 
 ```
 html, body {
@@ -26,10 +35,10 @@ html, body {
 }
 ```
 
-**Assignment (5 Min): To render the map, update the "App.js" file in the
-"src" folder as follows:**
+**Assignment (5 Min): Create a container for the map by updating
+the "render" method in "App.js" file in the "src" folder as follows:**
 
-In the *render* methods replace:
+Replace:
 
 ```
 <div style={{visibility}}>Hello World</div>
@@ -40,6 +49,12 @@ with
 ```
 <div id="map" style={{visibility}} />
 ```
+
+Next we need to create the callback method (for the initial loading of
+the Google API.
+
+**Assignment (5 Min): Create Google API callback by updating
+"App.js" file in the "src" folder as follows:**
 
 Add the following method above the "render" method.
 
@@ -64,6 +79,14 @@ constructor() {
 }
 ```
 
+**note:** The pattern in this constructor is commonly used bind the
+**this** value to the object; used when passing a method to other functions.
+
+Finally, we need to load the Google API.
+
+**Assignment (5 Min): Load the Google API by updating
+"App.js" file in the "src" folder as follows:**
+
 Add the following at the end of the *componentDidMount* method:
 
 ```
@@ -84,6 +107,8 @@ componentWillUnmount() {
   this.map = null;
 }
 ```
+
+At this point, we have integrated the Google Maps API into our React app.
 
 ### Installation
 
