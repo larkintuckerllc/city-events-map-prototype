@@ -4,6 +4,10 @@ import * as fromEvents from './ducks/events';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.initMap = this.initMap.bind(this);
+  }
   componentWillMount() {
     this.setState({ initialProps: true });
   }
