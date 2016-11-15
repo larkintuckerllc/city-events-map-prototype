@@ -15,8 +15,9 @@ the events in the *App* component.
 add more features to our application the additional Redux work follows
 very repeatable patterns.
 
-**Assignment (10 Min): Connect the "App" component to the "events"
-Redux implementation by updating the file "App.js" in "src" to:**
+**Assignment (10 Min): Starting from the solution from the previous lesson;
+connect the "App" component to the "events" Redux implementation by
+updating the file "App.js" in "src" to:**
 
 ```
 import React, { Component, PropTypes } from 'react';
@@ -68,8 +69,8 @@ Again, use *React Developer Tools* one can inspect the properties
 being passed into the *App* component. *Redux DevTools* can be used
 to inspect the actions.
 
-**Assignment (5 Min): Update the "render" method of the "App.js"
-file in the "src" folder to:**
+**Assignment (5 Min): To show the loading / failed messages,
+update the "render" method of the "App.js" file in the "src" folder to:**
 
 ```
 render() {
@@ -88,7 +89,9 @@ render() {
 
 One problem with this implementation is that when the *App* component
 first loads, *events* is an empty array and *isFetchingEvents* is *false*.
-To prevent rending on the first load, we will use the component's state.
+To prevent rending on the first load, we will use the component's state
+to delay showing the *Hello World* div until after new properties
+are received.
 
 **Assignment (5 Min): Update the "App.js" file in the "src" folder as follows:**
 
