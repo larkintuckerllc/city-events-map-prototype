@@ -13,7 +13,7 @@ now integrate the Google Maps JavaScript API that we explored in
 an earlier lesson.
 
 One of the challenges of using the Google Maps JavaScript API is that
-the interface to it is JavaScript, e.g., one creates and interacts with a 
+the interface to it is JavaScript, e.g., one creates and interacts with a
 *Map* object. While this sort of interface is very different than the
 more familiar React pattern (rendering JSX), React (with the component
 lifecycle methods) handles it well.
@@ -51,7 +51,7 @@ with
 ```
 
 Next we need to create the callback method (for the initial loading of
-the Google API.
+the Google API).
 
 **Assignment (5 Min): Create Google API callback by updating
 "App.js" file in the "src" folder as follows:**
@@ -80,7 +80,7 @@ constructor() {
 ```
 
 **note:** The pattern in this constructor is commonly used bind the
-**this** value to the object; used when passing a method to other functions.
+*this* value to the object; used when passing a method to other functions.
 
 Finally, we need to load the Google API.
 
