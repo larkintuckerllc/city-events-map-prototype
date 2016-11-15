@@ -16,8 +16,9 @@ The application is designed to display city events (from an API) on a map
 filtered by location and time. This lesson will focus on the getting
 the data from the API into the Redux store.
 
-**Assignment (5 Min): Simplify the "App" component to be a simple
-"hello world" by editing the "App.js" file in "src" to be:***
+**Assignment (5 Min): Working from solution of the previous lesson,
+simplify the "App" component to be a simple "hello world" by editing
+the "App.js" file in "src" to be:***
 
 ```
 import React, { Component } from 'react';
@@ -80,6 +81,10 @@ with a file named "events.js" in it with:**
 **note:** While this file is much like the *counter.js* in the previous
 lesson, it is somewhat more complicated. At this point, we will focus on
 how to use this file rather than the details of the implementation.
+
+**note:** If one is wondering where *ducks* came from, see:
+
+https://github.com/erikras/ducks-modular-redux
 
 ```
 import { combineReducers } from 'redux';
