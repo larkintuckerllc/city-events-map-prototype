@@ -9,12 +9,14 @@ import './index.css';
 class Map extends Component {
   constructor() {
     super();
+    this.handleClick = this.handleClick.bind(this);
     this.initMap = this.initMap.bind(this);
     this.updateMarkers = this.updateMarkers.bind(this);
   }
   componentWillMount() {
     this.markers = [];
     this.map = null;
+    this.infoWindow = null;
   }
   componentDidMount() {
     window.initMap = this.initMap;
@@ -28,9 +30,26 @@ class Map extends Component {
   }
   componentWillUnmount() {
     for (let i = 0; i < this.markers.length; i++) {
-      this.markers[i].setMap(null);
+      const marker = this.markers[i];
+      window.google.maps.event.clearInstanceListeners(marker);
+      marker.setMap(null);
     }
+    this.infoWindow = null;
     this.map = null;
+  }
+  handleClick(event, marker) {
+    const start = event.start;
+    const startHour = start === 0 ? 12 : (start < 13 ? start : start - 12);
+    const startPeriod = start < 13 ? 'AM' : 'PM';
+    const end = event.end;
+    const endHour = end === 0 ? 12 : (end < 13 ? end : end - 12);
+    const endPeriod = end < 13 ? 'AM' : 'PM';
+    this.infoWindow.setContent([
+      `<div><b>${event.name}</b></div>`,
+      `<div><b>Start:</b> ${startHour} ${startPeriod}</div>`,
+      `<div><b>End:</b> ${endHour} ${endPeriod}</div>`,
+    ].join('\n'));
+    this.infoWindow.open(this.map, marker);
   }
   initMap() {
     const mapEl = document.getElementById('map_root__map');
@@ -39,6 +58,9 @@ class Map extends Component {
       center: { lat: 29.650134, lng: -82.335046 },
       disableDefaultUI: true,
       zoomControl: true,
+    });
+    this.infoWindow = new window.google.maps.InfoWindow({
+      maxWidth: 200,
     });
     this.updateMarkers();
   }
@@ -61,6 +83,7 @@ class Map extends Component {
           },
           map: this.map,
         });
+        marker.addListener('click', () => this.handleClick(event, marker));
         marker.id = event.id;
         this.markers.push(marker);
       }
@@ -68,6 +91,7 @@ class Map extends Component {
     for (let i = this.markers.length - 1; i >= 0; i--) {
       const marker = this.markers[i];
       if (currentEvents.find(o => o.id === marker.id) === undefined) {
+        window.google.maps.event.clearInstanceListeners(marker);
         marker.setMap(null);
         this.markers.splice(i, 1);
       }

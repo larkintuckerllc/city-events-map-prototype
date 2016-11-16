@@ -13,10 +13,28 @@ is simply a summary of the rest of the steps applied to complete the
 application. To download and review the application, see the *Installation*
 section below.
 
-* Refactor into Components
-* Duck
-* Slider
-* Display
+**Refactored into Separate Components**
+
+With the added complexity, we broke up the single *App* component into
+multiple narrowly focused components.
+
+**Created Time Duck**
+
+As the application is designed to allow one to find events through
+time and space, we keep track of the search time with the *time*
+duck.
+
+**Time Display and Slider**
+
+Built components to display and modify the search time. Used a
+third-party slider component for the search time control.
+
+https://github.com/react-component/slider
+
+**Dynamically Add and Remove Markers**
+
+Added functionality to the map to dynamically add and remove markers
+based on the search time.
 
 ### Installation
 
