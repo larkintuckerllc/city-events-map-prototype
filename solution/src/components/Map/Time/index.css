@@ -1,0 +1,13 @@
+#map_root__time {
+  position: absolute;
+  box-sizing: border-box;
+  top: 5%;
+  left: 20px;
+  width: 34px;
+  height: 90%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: rgba(0,0,0,0.7);
+}

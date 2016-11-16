@@ -13,8 +13,10 @@ is simply a summary of the rest of the steps applied to complete the
 application. To download and review the application, see the *Installation*
 section below.
 
+* Refactor into Components
 * Duck
 * Slider
+* Display
 
 ### Installation
 

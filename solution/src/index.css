@@ -1,26 +1,9 @@
-html, body {
+html, body, #root {
   margin: 0;
   height: 100%;
   padding: 0;
   font-family: sans-serif;
 }
-#root, #container, #container__loaded, #container__loaded__map {
-  height: 100%;
-}
-#container__loaded__time {
-  position: absolute;
-  box-sizing: border-box;
-  z-index: 1;
-  top: 5%;
-  left: 20px;
-  width: 34px;
-  height: 90%;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-color: rgba(0,0,0,0.7);
-}
 .rc-slider-tooltip {
-  visibility: hidden;
+  visibility: hidden!important;
 }

@@ -2,11 +2,15 @@ const fakeDatabase = {
   collection: [{
     id: 0,
     name: 'Code for Gainesville',
+    start: 18,
+    end: 21,
     lat: 29.649062,
     lng: -82.331487,
   }, {
     id: 1,
     name: 'Infinity Hall Event',
+    start: 16,
+    end: 18,
     lat: 29.650661,
     lng: -82.334829,
   }],

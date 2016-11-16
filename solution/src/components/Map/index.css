@@ -1,0 +1,7 @@
+#map_root {
+  position: relative;
+  height: 100%;
+}
+#map_root__map {
+  height: 100%;
+}
