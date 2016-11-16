@@ -36,6 +36,11 @@ https://github.com/react-component/slider
 Added functionality to the map to dynamically add and remove markers
 based on the search time.
 
+**Added InfoWindows for Markers**
+
+Added functionality to the map to display event details on clicks on
+markers.
+
 ### Installation
 
 The final result of this lesson is available in this branch. Download and

@@ -40,14 +40,15 @@ class Map extends Component {
   handleClick(event, marker) {
     const start = event.start;
     const startHour = start === 0 ? 12 : (start < 13 ? start : start - 12);
-    const startPeriod = start < 13 ? 'AM' : 'PM';
+    const startPeriod = start < 12 ? 'AM' : 'PM';
     const end = event.end;
     const endHour = end === 0 ? 12 : (end < 13 ? end : end - 12);
-    const endPeriod = end < 13 ? 'AM' : 'PM';
+    const endPeriod = end < 12 ? 'AM' : 'PM';
     this.infoWindow.setContent([
       `<div><b>${event.name}</b></div>`,
       `<div><b>Start:</b> ${startHour} ${startPeriod}</div>`,
       `<div><b>End:</b> ${endHour} ${endPeriod}</div>`,
+      `<div><b><a href="${event.url}" target="_blank">Details</a></b></div>`,
     ].join('\n'));
     this.infoWindow.open(this.map, marker);
   }
