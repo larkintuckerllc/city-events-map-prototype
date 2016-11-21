@@ -1,6 +1,6 @@
 # City Events Map Prototype
 
-## Lesson 9
+## Lesson 10
 
 This is one lesson in a series designed to bring a developer, already
 familiar with the basics of HTML, CSS, and JavaScript, up to speed with
@@ -8,38 +8,15 @@ the React / Redux framework. An introduction and instructions on using
 these lessons are provided in the README of the *master* branch of this
 repository.
 
-As we have been exposed to all the core concepts already, this lesson
-is simply a summary of the rest of the steps applied to complete the
-application. To download and review the application, see the *Installation*
-section below.
+In the previous lesson, we used a third-party slider component which
+had limitations (styling). Turns out that there is a HTML5 range
+input that (with a bit of CSS) can be styled.
 
-**Refactored into Separate Components**
+https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
 
-With the added complexity, we broke up the single *App* component into
-multiple narrowly focused components.
-
-**Created Time Duck**
-
-As the application is designed to allow one to find events through
-time and space, we keep track of the search time with the *time*
-duck.
-
-**Time Display and Slider**
-
-Built components to display and modify the search time. Used a
-third-party slider component for the search time control.
-
-https://github.com/react-component/slider
-
-**Dynamically Add and Remove Markers**
-
-Added functionality to the map to dynamically add and remove markers
-based on the search time.
-
-**Added InfoWindows for Markers**
-
-Added functionality to the map to display event details on clicks on
-markers.
+**note:** While this input is not supported on IE9; most organizations
+that are stuck on older versions of IE provide their employees access
+to updated browsers, e.g., FireFox or Chrome.
 
 ### Installation
 

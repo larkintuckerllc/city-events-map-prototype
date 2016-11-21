@@ -4,6 +4,3 @@ html, body, #root {
   padding: 0;
   font-family: sans-serif;
 }
-.rc-slider-tooltip {
-  visibility: hidden!important;
-}

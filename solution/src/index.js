@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import events from './ducks/events';
 import time from './ducks/time';
 import App from './components/App';
-import 'rc-slider/assets/index.css';
 import './index.css';
 
 const middlewares = [thunk];
