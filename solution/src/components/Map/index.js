@@ -59,6 +59,9 @@ class Map extends Component {
       center: { lat: 29.650134, lng: -82.335046 },
       disableDefaultUI: true,
       zoomControl: true,
+      zoomControlOptions: {
+        position: window.google.maps.ControlPosition.TOP_RIGHT,
+      }
     });
     this.infoWindow = new window.google.maps.InfoWindow({
       maxWidth: 200,
