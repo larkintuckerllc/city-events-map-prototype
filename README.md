@@ -18,6 +18,10 @@ https://github.com/shakacode/bootstrap-loader
 to to previous lesson, install the dependencies and Bootstrap-Loader with
 the following commands:**
 
+**note:** The large number of loaders are required to handle the
+multiple types of source files provided with Bootstrap, e.g., styles,
+fonts, images, and JavaScript.
+
 `npm install --save-dev node-sass`
 
 `npm install --save-dev bootstrap-sass`
@@ -32,7 +36,80 @@ the following commands:**
 
 `npm install --save-dev url-loader`
 
-`npm install --save-dev bootstrap-loader`
+`npm install --save-dev file-loader`
+
+`npm install --save-dev imports-loader`
+
+`npm install --save jquery`
+
+`npm install --save bootstrap-loader`
+
+**Assignment (5 Min): Update the "loaders" value in "webpack.config.js"
+to be:**
+
+```
+loaders: [{
+  test: /\.(js|jsx)$/,
+  exclude: /node_modules/,
+  loader: 'babel-loader',
+}, {
+  test: /\.(woff2?|svg)$/,
+  loader: 'url-loader?limit=10000',
+}, {
+  test: /\.(ttf|eot)$/,
+  loader: 'file-loader',
+}, {
+  test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
+  loader: 'imports-loader?jQuery=jquery',
+}],
+```
+
+**Assignment (5 Min): Load Bootstrap-Loader by editing "src/index.jsx"
+as follows:**
+
+Add the command immediately below the *babel-polyfill* import.
+
+`import 'bootstrap-loader';`
+
+At this point, we have our application styled with Bootstrap. We will
+wrap up this lesson with adding our own stylesheet. The good news is that
+by adding all the dependencies for Bootstrap-Loader, we have everything
+we need installed.
+
+**Assignment (5 Min): Add the following to the "loaders" array value in
+"webpack.config.js":**
+
+```
+{
+  test: /\.css$/,
+  exclude: /node_modules/,
+  loaders: ['style', 'css' ],
+}
+```
+
+**Assignment (5 Min): Create file "src/index.css"
+as follows:**
+
+```
+body {
+  background-color: red;
+}
+```
+
+**Assignment (5 Min): Load the css by editing "src/index.jsx"
+as follows:**
+
+Add the following line at the end of the *imports*.
+
+`import './index.css';`
+
+**Assignment (1 Min): From the installation folder run the following command to compile
+the application:**
+
+`webpack`
+
+**Assignment (1 Min): Using browser open the file "dist/index.html" to
+view the application**
 
 ### Installation
 
