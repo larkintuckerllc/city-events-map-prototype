@@ -109,7 +109,9 @@ dependencies using the following commands:**
 **Assignment (5 Min): In installation folder, install the development tools
 using the following commands:**
 
-`npm install -g webpack`
+Linux / OS X: `sudo npm install -g webpack`
+
+Windows: `npm install -g webpack`
 
 `npm install --save-dev webpack`
 
