@@ -1,6 +1,6 @@
 # City Events Map Prototype
 
-## Lesson 12
+## Lesson 13
 
 This is one lesson in a series designed to bring a developer, already
 familiar with the basics of HTML, CSS, and JavaScript, up to speed with
@@ -8,108 +8,182 @@ the React / Redux framework. An introduction and instructions on using
 these lessons are provided in the README of the *master* branch of this
 repository.
 
-Now that we have control of our build process (with Webpack),
-we can follow the instructions and install Bootstrap with
-Bootstrap-Loader.
+As we have implemented both Bootstrap and custom CSS in a simple
+*hello world* application, we apply the same techniques to our
+city mapper application. In addition, we add some additional build
+tools. This lesson will focus on the general idea rather than
+a detailed walk-through.
 
-https://github.com/shakacode/bootstrap-loader
+**Merging Projects**
 
-**Assignment (5 Min): From the installation folder from the solution
-to to previous lesson, install the dependencies and Bootstrap-Loader with
-the following commands:**
+The strategy that we took to merge the two projects was bring in
+pieces of the *city events map* application into the *hello world*
+project that we just built.
 
-**note:** The large number of loaders are required to handle the
-multiple types of source files provided with Bootstrap, e.g., styles,
-fonts, images, and JavaScript.
+First, we bring in the additional dependencies:
 
-`npm install --save-dev node-sass`
+* normalizr
+* react-redux
+* redux
+* redux-thunk
 
-`npm install --save-dev bootstrap-sass`
+We need to add Babel support for the JavaScript feature called
+object rest spread with the additional development dependency
+and updated *.babelr*.
 
-`npm install --save-dev resolve-url-loader`
+* babel-plugin-transform-object-rest-spread
 
-`npm install --save-dev sass-loader`
+Then, we update the *index.html* file with an updated title and
+a *viewport* meta tag for mobile.
 
-`npm install --save-dev css-loader`
+We replace the *src* folder.
 
-`npm install --save-dev style-loader`
-
-`npm install --save-dev url-loader`
-
-`npm install --save-dev file-loader`
-
-`npm install --save-dev imports-loader`
-
-`npm install --save jquery`
-
-`npm install --save bootstrap-loader`
-
-**Assignment (5 Min): Update the "loaders" value in "webpack.config.js"
-to be:**
+In order for Webpack to resolve import paths consisting of just folder
+names, we need to update *webpack.config.js* with:
 
 ```
-loaders: [{
-  test: /\.(js|jsx)$/,
-  exclude: /node_modules/,
-  loader: 'babel-loader',
-}, {
-  test: /\.(woff2?|svg)$/,
+resolve: {
+  extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
+}
+```
+
+While not required, it is recommended to name any JavaScript file
+with JSX in it with the extension *.jsx*, e.g., the files in *components*.
+
+We finally bring back in the two imports from the *hello world* application
+at the top of *src/index.jsx*.
+
+```
+import 'babel-polyfill';
+import 'bootstrap-loader';
+```
+
+**Webpack-Dev-Server**
+
+We next want to incorporate the live-reloading feature that we had with
+*create-react-app*.  The solution is:
+
+https://webpack.github.io/docs/webpack-dev-server.html
+
+**Favicon**
+
+We incorporate a favicon; requires updating *webpack.config.js* loaders as
+required.
+
+```
+}
+  test: /\.ico$/,
+  loader: 'file-loader?name=[name].[ext]',
+}
+```
+
+**Media Loaders**
+
+Much like the need to load fonts, we need to be able to load media. Requires
+updating *webpack.config.js*.
+
+```
+}
+  test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
   loader: 'url-loader?limit=10000',
 }, {
-  test: /\.(ttf|eot)$/,
+  test: /\.(eot|ttf|wav|mp3)$/,
   loader: 'file-loader',
-}, {
-  test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
-  loader: 'imports-loader?jQuery=jquery',
-}],
+}
 ```
 
-**Assignment (5 Min): Load Bootstrap-Loader by editing "src/index.jsx"
-as follows:**
+**SCSS Support**
 
-Add the command immediately below the *babel-polyfill* import.
+We add support for SCSS (SASS 3) with the following loader:
 
-`import 'bootstrap-loader';`
+```
+{
+  test: /\.scss$/,
+  exclude: /node_modules/,
+  loaders: ['style', 'css', 'sass'],
+}
+```
 
-At this point, we have our application styled with Bootstrap. We will
-wrap up this lesson with adding our own stylesheet. The good news is that
-by adding all the dependencies for Bootstrap-Loader, we have everything
-we need installed.
+**Autoprefixer**
 
-**Assignment (5 Min): Add the following to the "loaders" array value in
-"webpack.config.js":**
+Because trying to remember when to create brower-specific prefixes
+is challenging, we use autoprefixer.
+
+https://www.npmjs.com/package/autoprefixer
+
+**CSS Modules**
+
+One of the pain points in web development is having to create
+unique names for all CSS elements across the project.  The solution
+is it use CSS modules.
+
+https://github.com/css-modules/css-modules
+
+This requires updating the loaders in `webpack.config.js`:
 
 ```
 {
   test: /\.css$/,
   exclude: /node_modules/,
-  loaders: ['style', 'css' ],
+  loaders: ['style', 'css?module&-autoprefixer', 'postcss'],
+}, {
+  test: /\.scss$/,
+  exclude: /node_modules/,
+  loaders: ['style', 'css?module&-autoprefixer', 'postcss', 'sass'],
 }
 ```
 
-**Assignment (5 Min): Create file "src/index.css"
-as follows:**
+But, then we need to update all the files where we used styles to
+use modules.
+
+**Linting**
+
+To help standardize code, we install a series of linters to
+check our code.
+
+* eslint
+* eslint-config-airbnb
+* eslint-loader
+* eslint-plugin-import
+* eslint-plugin-jsx-a11y
+* eslint-plugin-react
+
+**note:** Apparently one has to manually install an older (v2) version
+of *eslint-plugin-jsx-a11y* to be compatible with *eslint-config-airbnb*.
+
+Then to run the linter during the build process, add the following to
+*webpack.config.js*.
 
 ```
-body {
-  background-color: red;
-}
+preLoaders: [{
+   test: /\.(js|jsx)$/,
+   exclude: /node_modules/,
+   loader: 'eslint-loader',
+ }],
 ```
 
-**Assignment (5 Min): Load the css by editing "src/index.jsx"
-as follows:**
+One also needs to setup the eslint configuration file; *eslintrc.json*.
 
-Add the following line at the end of the *imports*.
+```
+ {
+   "env": {
+     "browser": true
+   },
+   "extends": "airbnb",
+   "parserOptions": {
+     "ecmaFeatures": {
+       "experimentalObjectRestSpread": true
+     }
+   }
+ }
+```
 
-`import './index.css';`
+Of course, one we install the linter we find that our code has a number of
+non-breaking issues that we need to clean up. Points to the fact that it
+is better to setup one's linter prior to starting development.
 
-**Assignment (1 Min): From the installation folder run the following command to compile
-the application:**
+**Production Builds**
 
-`webpack`
-
-**Assignment (1 Min): Using browser open the file "dist/index.html" to
-view the application**
 
 ### Installation
 

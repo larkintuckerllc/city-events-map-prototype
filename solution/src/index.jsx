@@ -2,9 +2,29 @@ import 'babel-polyfill';
 import 'bootstrap-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import events from './ducks/events';
+import time from './ducks/time';
+import App from './components/App';
+import './favicon.ico';
+import './index.scss';
 
+const middlewares = [thunk];
+const store = createStore(
+  combineReducers({
+    events,
+    time,
+  }),
+  compose(
+    applyMiddleware(...middlewares),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
+);
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
