@@ -9,11 +9,9 @@ export default (state = 12, action) => {
   }
 };
 // ACCESSORS
-export const getTime = (state) => state.time;
+export const getTime = state => state.time;
 // ACTION CREATORS
-export const setTime = (value) => {
-  return ({
-    type: SET_TIME,
-    value,
-  });
-};
+export const setTime = value => ({
+  type: SET_TIME,
+  value,
+});

@@ -1,15 +1,20 @@
+// eslint-disable-next-line
 const autoprefixer = require('autoprefixer');
+// eslint-disable-next-line
+const webpack = require('webpack');
 const path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
+// eslint-disable-next-line
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   template: path.join(__dirname, 'index.html'),
   filename: 'index.html',
-  inject: 'body'
+  inject: 'body',
 });
 module.exports = {
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
   },
+  devtool: 'eval',
   entry: path.join(__dirname, 'src', 'index.jsx'),
   output: {
     path: path.join(__dirname, 'dist'),
@@ -17,10 +22,10 @@ module.exports = {
   },
   module: {
     preLoaders: [{
-       test: /\.(js|jsx)$/,
-       exclude: /node_modules/,
-       loader: 'eslint-loader',
-     }],
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      loader: 'eslint-loader',
+    }],
     loaders: [{
       test: /\.(js|jsx)$/,
       exclude: /node_modules/,
@@ -43,7 +48,8 @@ module.exports = {
       exclude: /node_modules/,
       loaders: ['style', 'css?module&-autoprefixer', 'postcss', 'sass'],
     }, {
-      test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
+      // eslint-disable-next-line
+      test: /bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
       loader: 'imports-loader?jQuery=jquery',
     }],
   },
@@ -59,7 +65,12 @@ module.exports = {
       }),
     ],
   plugins: [
-    HTMLWebpackPluginConfig
+    HTMLWebpackPluginConfig,
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
+    }),
   ],
   devServer: {
     inline: true,

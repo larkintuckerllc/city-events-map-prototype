@@ -184,6 +184,52 @@ is better to setup one's linter prior to starting development.
 
 **Production Builds**
 
+With our streamlined day-to-day development process in place we need
+flesh out the production deployment process.
+
+We update *webpack.config.js* with the following *plugins* value
+to make the environment variable *NODE_ENV* available in the browser.
+This variable can be used to conditionally do things based on
+whether the application is running in production or not.
+
+```
+plugins: [
+  HTMLWebpackPluginConfig,
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    },
+  }),
+],
+```
+
+The *devtools* value in *webpack.config.js* sets up
+an optimized (for build / rebuild speed) set of debugging tools
+in the browser when developing.
+
+`devtool: 'eval'`
+
+Updates to `package.json` provide for commands to start the
+development environment and build the production version
+(with more debugging tools in the browser).
+
+```
+"scripts": {
+    "build": "NODE_ENV=production webpack -p -d source-map",
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+```
+The following sample code illustrates how one can
+conditionally do things based on the build type (development or
+production).
+
+```
+// SAMPLE DEVELOPMENT DEBUGGING CODE
+if (process.env.NODE_ENV !== 'production') {
+  window.console.log('DEVELOPMENT ENVIRONMENT');
+}
+```
 
 ### Installation
 
@@ -195,10 +241,30 @@ dependencies:
 
 `npm install`
 
+Install Webpack-Dev-Server:
+
+Linux / OS X: `sudo npm install -g webpack-dev-server`
+
+Windows: `npm install -g webpack-dev-server`
+
 ### Usage
 
-Run the following command in the *solution* folder to build:
+Run the following command in the *solution* folder to build and serve:
 
-`webpack`
+`npm run start`
 
-Open the file `dist/index.html` with a browser to run application.
+Open the following URL with a browser to run application:
+
+`http://localhost:8080`
+
+Run the following command in the *solution* folder to build the production
+version.
+
+`npm run build`
+
+If one is using the Atom editor, the following Atom plug-ins will display
+the linting errors in the editor.
+
+* linter
+* linter-eslint
+* react

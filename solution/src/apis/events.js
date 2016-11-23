@@ -30,13 +30,13 @@ const fakeDatabase = {
     start: 17,
     end: 19,
     lat: 29.644754,
-    lng:-82.323211,
+    lng: -82.323211,
   }],
 };
-const delay = (ms) =>
+const delay = ms =>
   new Promise(resolve => window.setTimeout(resolve, ms));
 // eslint-disable-next-line
 export const getEvents = () =>
   delay(2000).then(() =>
-    fakeDatabase.collection.map(o => ({ ...o }))
+    fakeDatabase.collection.map(o => ({ ...o })),
   );

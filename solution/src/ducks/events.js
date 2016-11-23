@@ -59,10 +59,9 @@ export default combineReducers({
 });
 // ACCESSORS
 export const getEvent = (state, id) => state.events.byId[id];
-export const getEvents = (state) =>
-  state.events.ids.map(id => getEvent(state, id));
-export const getIsFetchingEvents = (state) => state.events.isFetching;
-export const getFetchEventsErrorMessage = (state) =>
+export const getEvents = state => state.events.ids.map(id => getEvent(state, id));
+export const getIsFetchingEvents = state => state.events.isFetching;
+export const getFetchEventsErrorMessage = state =>
   state.events.fetchErrorMessage;
 // ACTION CREATORS
 export const fetchEvents = () => (dispatch, getState) => {
@@ -76,12 +75,12 @@ export const fetchEvents = () => (dispatch, getState) => {
         type: FETCH_EVENTS_SUCCESS,
         response: normalize(response, eventsSchema),
       }),
-      error => {
+      (error) => {
         dispatch({
           type: FETCH_EVENTS_ERROR,
           message: error.message,
         });
         throw new ServerException(error.message);
-      }
+      },
     );
 };

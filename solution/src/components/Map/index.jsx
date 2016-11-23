@@ -4,7 +4,7 @@ import * as fromEvents from '../../ducks/events';
 import * as fromTime from '../../ducks/time';
 import Display from './Display';
 import Time from './Time';
-import style from'./index.css';
+import style from './index.css';
 
 class Map extends Component {
   constructor() {
@@ -29,7 +29,7 @@ class Map extends Component {
     }
   }
   componentWillUnmount() {
-    for (let i = 0; i < this.markers.length; i++) {
+    for (let i = 0; i < this.markers.length; i += 1) {
       const marker = this.markers[i];
       window.google.maps.event.clearInstanceListeners(marker);
       marker.setMap(null);
@@ -39,10 +39,24 @@ class Map extends Component {
   }
   handleClick(event, marker) {
     const start = event.start;
-    const startHour = start === 0 ? 12 : (start < 13 ? start : start - 12);
+    let startHour;
+    if (start === 0) {
+      startHour = 12;
+    } else if (start < 13) {
+      startHour = start;
+    } else {
+      startHour = start - 12;
+    }
     const startPeriod = start < 12 ? 'AM' : 'PM';
     const end = event.end;
-    const endHour = end === 0 ? 12 : (end < 13 ? end : end - 12);
+    let endHour;
+    if (end === 0) {
+      endHour = 12;
+    } else if (end < 13) {
+      endHour = end;
+    } else {
+      endHour = end - 12;
+    }
     const endPeriod = end < 12 ? 'AM' : 'PM';
     this.infoWindow.setContent([
       `<div><b>${event.name}</b></div>`,
@@ -61,7 +75,7 @@ class Map extends Component {
       zoomControl: true,
       zoomControlOptions: {
         position: window.google.maps.ControlPosition.TOP_RIGHT,
-      }
+      },
     });
     this.infoWindow = new window.google.maps.InfoWindow({
       maxWidth: 200,
@@ -71,13 +85,13 @@ class Map extends Component {
   updateMarkers() {
     const { events, time } = this.props;
     const currentEvents = [];
-    for (let i = 0; i < events.length; i++) {
+    for (let i = 0; i < events.length; i += 1) {
       const event = events[i];
       if (event.start <= time && event.end >= time) {
         currentEvents.push(event);
       }
     }
-    for (let i = 0; i < currentEvents.length; i++) {
+    for (let i = 0; i < currentEvents.length; i += 1) {
       const event = currentEvents[i];
       if (this.markers.find(o => o.id === event.id) === undefined) {
         const marker = new window.google.maps.Marker({
@@ -92,7 +106,7 @@ class Map extends Component {
         this.markers.push(marker);
       }
     }
-    for (let i = this.markers.length - 1; i >= 0; i--) {
+    for (let i = this.markers.length - 1; i >= 0; i -= 1) {
       const marker = this.markers[i];
       if (currentEvents.find(o => o.id === marker.id) === undefined) {
         window.google.maps.event.clearInstanceListeners(marker);
@@ -116,16 +130,16 @@ class Map extends Component {
   }
 }
 Map.propTypes = {
-  events: PropTypes.array.isRequired,
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
   setTime: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
 };
 export default connect(
-  (state) => ({
+  state => ({
     events: fromEvents.getEvents(state),
     time: fromTime.getTime(state),
   }),
   {
     setTime: fromTime.setTime,
-  }
+  },
 )(Map);

@@ -11,6 +11,10 @@ import App from './components/App';
 import './favicon.ico';
 import './index.scss';
 
+// SAMPLE DEVELOPMENT DEBUGGING CODE
+if (process.env.NODE_ENV !== 'production') {
+  window.console.log('DEVELOPMENT ENVIRONMENT');
+}
 const middlewares = [thunk];
 const store = createStore(
   combineReducers({
@@ -19,12 +23,12 @@ const store = createStore(
   }),
   compose(
     applyMiddleware(...middlewares),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-  )
+    window.devToolsExtension ? window.devToolsExtension() : f => f,
+  ),
 );
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

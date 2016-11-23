@@ -24,18 +24,16 @@ class App extends Component {
   }
 }
 App.propTypes = {
-  events: PropTypes.array.isRequired,
   fetchEvents: PropTypes.func.isRequired,
   fetchEventsErrorMessage: PropTypes.string,
   isFetchingEvents: PropTypes.bool.isRequired,
 };
 export default connect(
-  (state) => ({
-    events: fromEvents.getEvents(state),
+  state => ({
     fetchEventsErrorMessage: fromEvents.getFetchEventsErrorMessage(state),
     isFetchingEvents: fromEvents.getIsFetchingEvents(state),
   }),
   {
     fetchEvents: fromEvents.fetchEvents,
-  }
+  },
 )(App);
