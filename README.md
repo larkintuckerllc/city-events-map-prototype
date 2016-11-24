@@ -14,11 +14,6 @@ The final solution is provided at:
 
 http://city-events-map-prototype.s3-website-us-east-1.amazonaws.com/
 
-// TODO: REMOVE DISCLAIMER WHEN DONE
-
-Disclaimer, the final solution is a work in progress; expected to be
-complete during the week of Nov. 14, 2016.
-
 This repo is organized into a series of lessons; one per branch (each
 with its own README file). The remaining files in the branch provide
 the final result of the lesson.
