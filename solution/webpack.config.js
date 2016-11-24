@@ -6,7 +6,7 @@ const path = require('path');
 // eslint-disable-next-line
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: path.join(__dirname, 'index.html'),
+  template: path.join(__dirname, 'src', 'index.html'),
   filename: 'index.html',
   inject: 'body',
 });
