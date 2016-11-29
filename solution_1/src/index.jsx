@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import events from './ducks/events';
 import time from './ducks/time';
+import dummy from './ducks/dummy';
 import App from './components/App';
 import './favicon.ico';
 import './index.scss';
@@ -20,6 +21,7 @@ const store = createStore(
   combineReducers({
     events,
     time,
+    dummy,
   }),
   compose(
     applyMiddleware(...middlewares),

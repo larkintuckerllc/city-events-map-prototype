@@ -1,6 +1,6 @@
 # City Events Map Prototype
 
-## Lesson 13
+## Lesson 14
 
 This is one lesson in a series designed to bring a developer, already
 familiar with the basics of HTML, CSS, and JavaScript, up to speed with
@@ -8,263 +8,112 @@ the React / Redux framework. An introduction and instructions on using
 these lessons are provided in the README of the *master* branch of this
 repository.
 
-As we have implemented both Bootstrap and custom CSS in a simple
-*hello world* application, we apply the same techniques to our
-city mapper application. In addition, we add some additional build
-tools. This lesson will focus on the general idea rather than
-a detailed walk-through.
+This lesson introduces fixes for a couple of subtle optimization issues
 
-**Merging Projects**
+**React Multiple Components**
 
-The strategy that we took to merge the two projects was bring in
-pieces of the *city events map* application into the *hello world*
-project that we just built.
+The first optimization issue is actually not a problem with this project, but
+there is an important concept to keep in mind as the project gets
+more complex. The question is how deep in the component tree does one
+use connect to get at data in the store. The answer is provided by
+Dan Abramov himself:
 
-First, we bring in the additional dependencies:
+http://redux.js.org/docs/faq/ReactRedux.html#react-multiple-components
 
-* normalizr
-* react-redux
-* redux
-* redux-thunk
+In this project, we have two components that are connected to the Redux
+store: *App* and *Map*; with *App* being at the top of the component tree.
 
-We need to add Babel support for the JavaScript feature called
-object rest spread with the additional development dependency
-and updated *.babelr*.
+It would be a mistake to obtain the *events*, *setTime*, and *time*
+in *App* and pass them down to *Map* as properties.  *App* itself does
+not need these values.  Rather, we connect *Map* to the store to get
+the values.
 
-* babel-plugin-transform-object-rest-spread
+In summation, the goal here is to optimize performance by minimizing
+the number of times a component is rendered. By pushing the connect
+down the component tree, we avoid unnecessary re-rendering of higher
+components.
 
-Then, we update the *index.html* file with an updated title and
-a *viewport* meta tag for mobile.
+**React Rendering Too Often**
 
-We replace the *src* folder.
+The second optimization trick took me quite awhile to understand and
+requires one to understand what triggers components to be re-rendered
+in an React / Redux application. A brief explanation is provided by
+Dan Abramov at:
 
-In order for Webpack to resolve import paths consisting of just folder
-names, we need to update *webpack.config.js* with:
+http://redux.js.org/docs/faq/ReactRedux.html#react-rendering-too-often
 
-```
-resolve: {
-  extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx'],
-}
-```
+To illustrate the problem, in *solution_1* I have added a do nothing
+duck called *dummy*; needed to force a change in the store without
+causing anything to need re-rendering. I have also added a logging
+step in the *Map* component to allow us to see when it is being
+re-rendered.
 
-While not required, it is recommended to name any JavaScript file
-with JSX in it with the extension *.jsx*, e.g., the files in *components*.
-
-We finally bring back in the two imports from the *hello world* application
-at the top of *src/index.jsx*.
-
-```
-import 'babel-polyfill';
-import 'bootstrap-loader';
-```
-
-**Webpack-Dev-Server**
-
-We next want to incorporate the live-reloading feature that we had with
-*create-react-app*.  The solution is:
-
-https://webpack.github.io/docs/webpack-dev-server.html
-
-**Favicon**
-
-We incorporate a favicon; requires updating *webpack.config.js* loaders as
-required.
-
-```
-}
-  test: /\.ico$/,
-  loader: 'file-loader?name=[name].[ext]',
-}
-```
-
-**Media Loaders**
-
-Much like the need to load fonts, we need to be able to load media. Requires
-updating *webpack.config.js*.
-
-```
-}
-  test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
-  loader: 'url-loader?limit=10000',
-}, {
-  test: /\.(eot|ttf|wav|mp3)$/,
-  loader: 'file-loader',
-}
-```
-
-**SCSS Support**
-
-We add support for SCSS (SASS 3) with the following loader:
+With the developer tools console open, one will see *RENDER MAP* when
+the application is first loaded; this is good. But using
+Redux developer tools we can cause a state change by changing the
+dummy value by dispatching:
 
 ```
 {
-  test: /\.scss$/,
-  exclude: /node_modules/,
-  loaders: ['style', 'css', 'sass'],
+  type: 'SET_DUMMY',
+  value:  true
 }
 ```
 
-**Autoprefixer**
+Even though the *Map* component does not use the *dummy* duck, we
+never-the-less see that the component still re-renders. While *connect*
+attempts to minimize the re-rendering by comparing the properties (before
+and after), it is the *events* array that is actually changing every
+time the store is updated. Again, it is not changing in a substantive
+way (while the reference to the array is changing, the content is not).
 
-Because trying to remember when to create brower-specific prefixes
-is challenging, we use autoprefixer.
+**Refactoring with Reselect**
 
-https://www.npmjs.com/package/autoprefixer
+The fix is to use the *reselect* module as follows:
 
-**CSS Modules**
+https://github.com/reactjs/reselect
 
-One of the pain points in web development is having to create
-unique names for all CSS elements across the project.  The solution
-is it use CSS modules.
-
-https://github.com/css-modules/css-modules
-
-This requires updating the loaders in `webpack.config.js`:
+In *solution_2* we have replaced the following in the *events* duck:
 
 ```
-{
-  test: /\.css$/,
-  exclude: /node_modules/,
-  loaders: ['style', 'css?module&-autoprefixer', 'postcss'],
-}, {
-  test: /\.scss$/,
-  exclude: /node_modules/,
-  loaders: ['style', 'css?module&-autoprefixer', 'postcss', 'sass'],
-}
+export const getEvents = state => state.events.ids.map(id => getEvent(state, id));
 ```
 
-But, then we need to update all the files where we used styles to
-use modules.
-
-**Linting**
-
-To help standardize code, we install a series of linters to
-check our code.
-
-* eslint
-* eslint-config-airbnb
-* eslint-loader
-* eslint-plugin-import
-* eslint-plugin-jsx-a11y
-* eslint-plugin-react
-
-**note:** Apparently one has to manually install an older (v2) version
-of *eslint-plugin-jsx-a11y* to be compatible with *eslint-config-airbnb*.
-
-Then to run the linter during the build process, add the following to
-*webpack.config.js*.
+with:
 
 ```
-preLoaders: [{
-   test: /\.(js|jsx)$/,
-   exclude: /node_modules/,
-   loader: 'eslint-loader',
- }],
+const getEventsIds = state => state.events.ids;
+const getEventsById = state => state.events.byId;
+export const getEvents = createSelector(
+  [getEventsIds, getEventsById],
+  (eventsIds, eventsById) => eventsIds.map(id => eventsById[id]),
+);
 ```
 
-One also needs to setup the eslint configuration file; *eslintrc.json*.
-
-```
- {
-   "env": {
-     "browser": true
-   },
-   "extends": "airbnb",
-   "parserOptions": {
-     "ecmaFeatures": {
-       "experimentalObjectRestSpread": true
-     }
-   }
- }
-```
-
-Of course, one we install the linter we find that our code has a number of
-non-breaking issues that we need to clean up. Points to the fact that it
-is better to setup one's linter prior to starting development.
-
-**Production Builds**
-
-With our streamlined day-to-day development process in place we need
-flesh out the production deployment process.
-
-We update *webpack.config.js* with the following *plugins* value
-to make the environment variable *NODE_ENV* available in the browser.
-This variable can be used to conditionally do things based on
-whether the application is running in production or not.
-
-```
-plugins: [
-  HTMLWebpackPluginConfig,
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-    },
-  }),
-],
-```
-
-The *devtools* value in *webpack.config.js* sets up
-an optimized (for build / rebuild speed) set of debugging tools
-in the browser when developing.
-
-`devtool: 'eval'`
-
-Updates to `package.json` provide for commands to start the
-development environment and build the production version
-(with more debugging tools in the browser).
-
-```
-"scripts": {
-    "build": "NODE_ENV=production webpack -p -d source-map",
-    "start": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-```
-The following sample code illustrates how one can
-conditionally do things based on the build type (development or
-production).
-
-```
-// SAMPLE DEVELOPMENT DEBUGGING CODE
-if (process.env.NODE_ENV !== 'production') {
-  window.console.log('DEVELOPMENT ENVIRONMENT');
-}
-```
+With this implementation, the getEvents will return a cached
+copy of the events array (only to be updated if one of
+*getEventsIds* or *getEventsById* changes). The fancy term for
+this pattern is memoization.
 
 ### Installation
 
 The final result of this lesson is available in this branch. Download and
 expand into a directory.
 
-Run the following command in the *solution* folder to download the
-dependencies:
+Run the following command in the *solution_1* and *solution_2* folders to download the dependencies:
 
 `npm install`
 
-Install Webpack-Dev-Server:
-
-Linux / OS X: `sudo npm install -g webpack-dev-server`
-
-Windows: `npm install -g webpack-dev-server`
+**note:** It assumed that one has *webpack* already installed from a previous
+lesson.
 
 ### Usage
 
-Run the following command in the *solution* folder to build and serve:
+Run the following command in the *solution_1* and *solution_2* folder to
+build and serve (one at a time).
 
 `npm run start`
 
 Open the following URL with a browser to run application:
 
 `http://localhost:8080`
-
-Run the following command in the *solution* folder to build the production
-version.
-
-`npm run build`
-
-If one is using the Atom editor, the following Atom plug-ins will display
-the linting errors in the editor.
-
-* linter
-* linter-eslint
-* react

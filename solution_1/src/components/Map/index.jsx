@@ -116,6 +116,7 @@ class Map extends Component {
     }
   }
   render() {
+    window.console.log('RENDER MAP'); // TODO: REMOVE - USED TO ILLUSTRATE A POINT
     const { setTime, time } = this.props;
     if (this.map !== null) {
       this.updateMarkers();
